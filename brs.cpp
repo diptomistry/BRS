@@ -11,7 +11,7 @@ private:
     map<string, string> busName;
     map<string, string> busNumber;
     map<string, int> totalSeats;
-    map<string, double> ticketPrice; // Map to store ticket prices
+    map<string, double> ticketPrice; 
     
 
 public:
@@ -21,8 +21,8 @@ public:
         busName[tempBusName] = tempBusName;
         busNumber[tempBusName] = tempBusNumber;
         totalSeats[tempBusName] = tempTotalSeats;
-        ticketPrice[tempBusName] = tempTicketPrice; // Store the ticket price for the bus
-        availableBuses.push_back(tempBusName);      // Add the bus name to the list of available buses
+        ticketPrice[tempBusName] = tempTicketPrice;
+        availableBuses.push_back(tempBusName);      
     }
 
     void saveAllData()
