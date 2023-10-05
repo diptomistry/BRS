@@ -11,18 +11,20 @@ private:
     map<string, string> busName;
     map<string, string> busNumber;
     map<string, int> totalSeats;
-    map<string, double> ticketPrice; 
-    
+    map<string, int> availableSeats; 
+    map<string, double> ticketPrice;  
 
 public:
     vector<string> availableBuses;
+
     void addBusData(string tempBusName, string tempBusNumber, int tempTotalSeats, double tempTicketPrice)
     {
         busName[tempBusName] = tempBusName;
         busNumber[tempBusName] = tempBusNumber;
         totalSeats[tempBusName] = tempTotalSeats;
-        ticketPrice[tempBusName] = tempTicketPrice;
-        availableBuses.push_back(tempBusName);      
+        availableSeats[tempBusName] = tempTotalSeats; 
+        ticketPrice[tempBusName] = tempTicketPrice;   
+        availableBuses.push_back(tempBusName);       
     }
 
     void saveAllData()
@@ -84,7 +86,7 @@ public:
 
     void storeUserData(string userName, string contactNumber, string busName, int numTickets, double totalPrice)
     {
-        ofstream outputFile("userdata.txt", ios::app); // Append mode
+        ofstream outputFile("userdata.txt", ios::app); 
 
         if (outputFile.is_open())
         {
@@ -99,6 +101,24 @@ public:
         else
         {
             cout << "Unable to open userdata.txt for writing." << endl;
+        }
+    }
+
+    bool checkAvailability(string busName, int numTickets)
+    {
+        if (availableSeats.find(busName) != availableSeats.end())
+        {
+            int available = availableSeats[busName];
+            return numTickets <= available;
+        }
+        return false;
+    }
+
+    void updateAvailability(string busName, int numTickets)
+    {
+        if (availableSeats.find(busName) != availableSeats.end())
+        {
+            availableSeats[busName] -= numTickets;
         }
     }
 };
@@ -139,19 +159,23 @@ int main()
         int numTickets;
         cin >> numTickets;
 
-        double totalPrice = brs.calculateTotalPrice(selectedBusName, numTickets);
-
-        if (totalPrice > 0)
+        if (brs.checkAvailability(selectedBusName, numTickets))
         {
-            cout << "Total Price: Tk" << totalPrice << endl;
-            cout << "Thank you for using the Bus Reservation System! Have a great journey!" << endl;
+            double totalPrice = brs.calculateTotalPrice(selectedBusName, numTickets);
 
-            // Store user data
-            brs.storeUserData(passengerName, passengerPhoneNumber, selectedBusName, numTickets, totalPrice);
+            if (totalPrice > 0)
+            {
+                cout << "Total Price: Tk" << totalPrice << endl;
+                cout << "Thank you for using the Bus Reservation System! Have a great journey!" << endl;
+
+                
+                brs.updateAvailability(selectedBusName, numTickets);
+                brs.storeUserData(passengerName, passengerPhoneNumber, selectedBusName, numTickets, totalPrice);
+            }
         }
-                else
+        else
         {
-            cout << "Invalid number of tickets." << endl;
+            cout << "Sorry, there are not enough available seats for your request." << endl;
         }
     }
     else
