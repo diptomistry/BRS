@@ -1,0 +1,20 @@
+Bus Name: AC Deluxe
+Bus Number: 102
+Total Seats: 40
+Ticket Price: Tk120
+---------------------------------
+Bus Name: MM Poribohon
+Bus Number: 101
+Total Seats: 50
+Ticket Price: Tk100
+---------------------------------
+Bus Name: Travel Express
+Bus Number: 103
+Total Seats: 30
+Ticket Price: Tk80
+---------------------------------
+Bus Name: Travel Express2
+Bus Number: 104
+Total Seats: 40
+Ticket Price: Tk90
+---------------------------------
